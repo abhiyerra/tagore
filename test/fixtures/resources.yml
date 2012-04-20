@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  type: 
+  service_id: 1
+  data: MyText
+
+two:
+  type: 
+  service_id: 1
+  data: MyText
