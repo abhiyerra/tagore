@@ -15,6 +15,12 @@
   <%= @service.subdomain %>
 </p>
 
+<b>Resource:</b>
+<% @service.resources.each do |r| %>
+   <p>
+   <%= r.class.to_s %>
+   </p>
+<% end %>
 
 <%= link_to 'Edit', edit_service_path(@service) %> |
 <%= link_to 'Back', services_path %>

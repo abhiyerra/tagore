@@ -1,0 +1,3 @@
+class WebResource < Resource
+
+end

@@ -1,0 +1,3 @@
+class MemcachedResource < Resource
+
+end

@@ -2,12 +2,17 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.json
   def index
-    @resources = Resource.all
+    @service = Service.find_by_name(params[:service][:name])
+    @resources = @service.resources
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @resources }
-    end
+    # @resources = Resource.all
+
+ #   respond_to do |format|
+#      format.html # index.html.erb
+#      formaat.json {
+      render json: @resources
+ #   }
+  #  end
   end
 
   # GET /resources/1
@@ -40,15 +45,39 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.json
   def create
-    @resource = Resource.new(params[:resource])
+    @service = Service.find_by_name(params[:service][:name])
+
+    debugger; 1
+
+    resource_klass = case params[:resource_type]
+    when "redis"
+      RedisResource
+    when "mongo"
+      MongoResource
+    when "memcached"
+      MemcachedResource
+    when "web"
+      WebResource
+    when "worker"
+      WorkerResource
+    else
+      raise "Not such resource"
+    end
+
+    @resource = resource_klass.new
+    @resource.service_id = @service.id
 
     respond_to do |format|
       if @resource.save
-        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
-        format.json { render json: @resource, status: :created, location: @resource }
+#        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
+#        format.json {
+        render json: @resource, status: :created, location: resource_url(@resource)
+#}
       else
-        format.html { render action: "new" }
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
+ #       format.html { render action: "new" }
+  #      format.json {
+        render json: @resource.errors, status: :unprocessable_entity
+      #}
       end
     end
   end

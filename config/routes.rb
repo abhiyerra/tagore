@@ -1,7 +1,10 @@
+require 'resque/server'
+
 Hannibal::Application.routes.draw do
+  resources :services
   resources :resources
 
-  resources :services
+  mount Resque::Server.new, :at => "/resque"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -52,7 +55,7 @@ Hannibal::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'services#index'
 
   # See how all your routes lay out with "rake routes"
 

@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'typhoeus'
+# require "getopt/long"
+
+# opt = Getopt::Long.getopts(
+#   ["--foo", "-f", Getopt::BOOLEAN],
+#   ["--bar", "-b", Getopt::REQUIRED]
+#   )
+
+# if opt["foo"]
+#   # Do something if --foo or -f passed
+
+# if opt["b"]
+#   # Do something if --bar or -b passed
+
+HANNIBAL_FILE = "Hannibal"
+
+command = ARGV[0]
+
+case command.downcase
+when "create"
+  name = ARGV[1]
+
+  puts "Creating #{name}"
+  response = Typhoeus::Request.post("http://localhost:3001/services", :params => {
+     :service => {
+        :name => name,
+      }
+    })
+
+  `echo #{name} > Hannibal`
+
+  puts "Created #{name} with #{response.code}"
+
+when "resources:list"
+  unless File.exists?(File.join(Dir.pwd, HANNIBAL_FILE))
+    puts "Don't have a Hannibal file mate."
+    exit 1
+  end
+
+  file = File.open(File.join(Dir.pwd, HANNIBAL_FILE)).read
+  name = file.chomp
+
+  response = Typhoeus::Request.get("http://localhost:3001/resources", :params => {
+      :service => {
+        :name => name
+      }
+    })
+
+  puts response.body
+
+when "resources:add"
+  unless File.exists?(File.join(Dir.pwd, HANNIBAL_FILE))
+    puts "Don't have a Hannibal file mate."
+    exit 1
+  end
+
+  file = File.open(File.join(Dir.pwd, HANNIBAL_FILE)).read
+  name = file.chomp
+
+  resource = ARGV[1]
+
+  case resource
+  when "redis"
+  when "mongo"
+  when "memcached"
+  else
+    puts "The hell are you talking about. wtf is #{resource}?"
+    exit 1
+  end
+
+  response = Typhoeus::Request.post("http://localhost:3001/resources", :params => {
+      :service => {
+        :name => name
+      },
+      :resource_type => resource,
+    })
+
+  puts response.body
+end

@@ -1,0 +1,3 @@
+class RedisResource < Resource
+
+end
