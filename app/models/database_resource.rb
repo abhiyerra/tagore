@@ -1,3 +1,0 @@
-class DatabaseResource < Resource
-
-end

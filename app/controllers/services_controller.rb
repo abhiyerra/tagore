@@ -42,6 +42,9 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(params[:service])
 
+    @mysql_resource = MysqlResource.create(:service_id => @service.id)
+    @web_resource = WebResource.create(:service_id => @service.id)
+
     respond_to do |format|
       if @service.save
         render json: @service, status: :created, location: @service
@@ -70,7 +73,7 @@ class ServicesController < ApplicationController
   # DELETE /services/1
   # DELETE /services/1.json
   def destroy
-    @service = Service.find(params[:id])
+    @service = Service.find_by_name(params[:name])
     @service.destroy
 
     respond_to do |format|
@@ -78,4 +81,12 @@ class ServicesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def deploy
+    @service = Service.find_by_name(params[:name])
+    unless @service.launched
+      @service.start
+    end
+  end
+
 end
