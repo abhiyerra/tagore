@@ -5,30 +5,23 @@ require 'typhoeus'
 # require "getopt/long"
 
 # opt = Getopt::Long.getopts(
-#   ["--foo", "-f", Getopt::BOOLEAN],
-#   ["--bar", "-b", Getopt::REQUIRED]
-#   )
-
-# if opt["foo"]
-#   # Do something if --foo or -f passed
-
-# if opt["b"]
-#   # Do something if --bar or -b passed
+#   ["--shared", "-s", Getopt::BOOLEAN])
 
 HANNIBAL_FILE = "Hannibal"
 
 command = ARGV[0]
 
 case command.downcase
-when "create"
+when "service:create"
   name = ARGV[1]
+  shared = true if ARGV[2] # TODO: Uhhhh.... yeah...
 
   puts "Creating #{name}"
   response = Typhoeus::Request.post("http://localhost:3001/services", :params => {
      :service => {
         :name => name,
       }
-    })
+    }.merge(shared ? { :shared => "1" } : {}))
 
   `echo #{name} > Hannibal`
 

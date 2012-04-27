@@ -40,14 +40,11 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(params[:service])
-
-    @mysql_resource = MysqlResource.create(:service_id => @service.id)
-    @web_resource = WebResource.create(:service_id => @service.id)
+    SharedService.provision!(params[:service])
 
     respond_to do |format|
       if @service.save
-        render json: @service, status: :created, location: @service
+        render json: @service, status: :created, location: services_url(@service)
       else
         render json: @service.errors, status: :unprocessable_entity
       end

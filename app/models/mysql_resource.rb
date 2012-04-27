@@ -1,4 +1,4 @@
-class DatabaseResource < Resource
+class MysqlResource < Resource
 
   DATABASE_MACHINES = [
     'localhost'

@@ -5,6 +5,8 @@ class CreateServices < ActiveRecord::Migration
       t.text :description
       t.string :subdomain
 
+      t.string :type
+
       t.timestamps
     end
   end

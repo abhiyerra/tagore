@@ -7,7 +7,7 @@ class Service < ActiveRecord::Base
 
   after_create :provision
 
-  def provision
+  def provision!
     Resque.enqueue(ProvisionService, self.id)
   end
 

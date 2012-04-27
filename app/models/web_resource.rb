@@ -3,7 +3,7 @@ class WebResource < Resource
     service_name = "#{self.service.name}_#{self.id}"
 
     self.data = {
-      :machine => ""
+      :machine => "",
       :ip_address => ""
     }
 
