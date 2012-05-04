@@ -4,4 +4,12 @@ class Resource < ActiveRecord::Base
   belongs_to :service
 
   serialize :data
+
+  TYPES = {
+    "redis" => RedisResource,
+#    "mongo" => MongoResource,
+    "memcached" => MemcachedResource,
+    "web" => WebResource,
+    "worker" => WorkerResource,
+  }
 end

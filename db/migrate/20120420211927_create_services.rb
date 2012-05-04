@@ -6,7 +6,8 @@ class CreateServices < ActiveRecord::Migration
 
       t.string :repo
 
-      t.string :type
+      t.string :state
+      t.string :stack
 
       t.timestamps
     end

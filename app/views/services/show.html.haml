@@ -4,12 +4,11 @@
 
 .row
   .span12
-    %p
-      %b Description:
-      = @service.description
+    %p= @service.description
 
   .span12
-    %b Resource:
+    %h2 Resources
+    = render "resources/form"
     - @service.resources.each do |r|
       %p
         = r.class.to_s

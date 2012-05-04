@@ -40,18 +40,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    service_klass = Service
-    if params[:service] && (service_type = params[:service][:type])
-      service_klass = case service_type
-                      when "shared"
-                        SharedService
-                      else
-                        Service
-                      end
-      params[:service].delete :type
-    end
-
-    @service = service_klass.new(params[:service])
+    @service = Service.new(params[:service])
 
     respond_to do |format|
       if @service.save

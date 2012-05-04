@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20120429061355) do
 
   create_table "machines", :force => true do |t|
     t.string   "type"
+    t.string   "tag"
     t.text     "data"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -33,7 +34,8 @@ ActiveRecord::Schema.define(:version => 20120429061355) do
     t.string   "name"
     t.text     "description"
     t.string   "repo"
-    t.string   "type"
+    t.string   "state"
+    t.string   "stack"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

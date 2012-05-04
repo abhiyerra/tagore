@@ -45,41 +45,27 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.json
   def create
-    @service = Service.find_by_name(params[:service][:name])
+    if params[:resource] && (resource_type = params[:resource][:type])
+      resource_klass = Resource::TYPES[resource_type]
 
-    debugger; 1
+      return redirect_to :back, :error => "no such resource" unless resource_klass
 
-    resource_klass = case params[:resource_type]
-    when "redis"
-      RedisResource
-    when "mongo"
-      MongoResource
-    when "memcached"
-      MemcachedResource
-    when "web"
-      WebResource
-    when "worker"
-      WorkerResource
-    else
-      raise "Not such resource"
-    end
+      params[:resource].delete :type
 
-    @resource = resource_klass.new
-    @resource.service_id = @service.id
+      @resource = resource_klass.new(params[:resource])
 
-    respond_to do |format|
-      if @resource.save
-#        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
-#        format.json {
-        render json: @resource, status: :created, location: resource_url(@resource)
-#}
-      else
- #       format.html { render action: "new" }
-  #      format.json {
-        render json: @resource.errors, status: :unprocessable_entity
-      #}
+      respond_to do |format|
+        if @resource.save
+          format.html { redirect_to :back, notice: 'Resource was successfully created.' }
+          format.json { render json: @resource, status: :created, location: resource_url(@resource) }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @resource.errors, status: :unprocessable_entity }
+        end
       end
     end
+
+    return redirect_to :back
   end
 
   # PUT /resources/1
