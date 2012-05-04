@@ -40,13 +40,26 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    SharedService.provision!(params[:service])
+    service_klass = Service
+    if params[:service] && (service_type = params[:service][:type])
+      service_klass = case service_type
+                      when "shared"
+                        SharedService
+                      else
+                        Service
+                      end
+      params[:service].delete :type
+    end
+
+    @service = service_klass.new(params[:service])
 
     respond_to do |format|
       if @service.save
-        render json: @service, status: :created, location: services_url(@service)
+        format.html { redirect_to services_path(@service) }
+        format.json { render json: @service, status: :created, location: services_url(@service) }
       else
-        render json: @service.errors, status: :unprocessable_entity
+        format.html { render action: "new" }
+        format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end
   end

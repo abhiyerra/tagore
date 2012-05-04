@@ -7,4 +7,7 @@
     = csrf_meta_tags
   %body
     .container
+      - if notice
+        %p#notice= notice
+
       = yield
