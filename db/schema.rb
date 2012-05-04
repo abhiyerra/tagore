@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(:version => 20120429061355) do
   create_table "services", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.string   "subdomain"
     t.string   "repo"
     t.string   "type"
     t.datetime "created_at",  :null => false
