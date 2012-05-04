@@ -1,0 +1,17 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @service.name
+%p
+  %b Description:
+  = @service.description
+%p
+  %b Subdomain:
+  = @service.subdomain
+%b Resource:
+- @service.resources.each do |r|
+  %p
+    = r.class.to_s
+= link_to 'Edit', edit_service_path(@service)
+|
+\#{link_to 'Back', services_path}
