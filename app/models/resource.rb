@@ -6,6 +6,7 @@ class Resource < ActiveRecord::Base
   serialize :data
 
   TYPES = {
+    "mysql" => MysqlResource,
     "redis" => RedisResource,
 #    "mongo" => MongoResource,
     "memcached" => MemcachedResource,

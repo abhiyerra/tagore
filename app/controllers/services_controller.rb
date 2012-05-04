@@ -44,8 +44,8 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to services_path(@service) }
-        format.json { render json: @service, status: :created, location: services_url(@service) }
+        format.html { redirect_to @service }
+        format.json { render json: @service, status: :created, location: @service }
       else
         format.html { render action: "new" }
         format.json { render json: @service.errors, status: :unprocessable_entity }
