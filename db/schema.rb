@@ -11,12 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420212243) do
+ActiveRecord::Schema.define(:version => 20120429061355) do
+
+  create_table "machines", :force => true do |t|
+    t.string   "type"
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "resources", :force => true do |t|
     t.string   "type"
     t.integer  "service_id"
     t.text     "data"
+    t.integer  "machine_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -25,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20120420212243) do
     t.string   "name"
     t.text     "description"
     t.string   "subdomain"
+    t.string   "repo"
     t.string   "type"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

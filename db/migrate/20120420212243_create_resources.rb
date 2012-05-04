@@ -5,6 +5,8 @@ class CreateResources < ActiveRecord::Migration
       t.integer :service_id
       t.text :data
 
+      t.integer :machine_id
+
       t.timestamps
     end
   end
