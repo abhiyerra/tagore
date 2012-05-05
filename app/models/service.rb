@@ -5,6 +5,7 @@ class Service < ActiveRecord::Base
   validates :name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters allowed" }
 
   has_many :resources
+  has_many :deploys
 
   def deploy!
 
