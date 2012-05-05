@@ -2,6 +2,7 @@ class Resource < ActiveRecord::Base
   attr_accessible :data, :service_id, :type
 
   belongs_to :service
+  belongs_to :machine
 
   serialize :data
 

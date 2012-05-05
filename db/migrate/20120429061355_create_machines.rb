@@ -3,6 +3,7 @@ class CreateMachines < ActiveRecord::Migration
     create_table :machines do |t|
       t.string :type
       t.string :tag
+      t.string :ip_address
 
       t.text :data
 

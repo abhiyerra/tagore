@@ -52,16 +52,11 @@ class ResourcesController < ApplicationController
 
       params[:resource].delete :type
 
-      @resource = resource_klass.new(params[:resource])
+      @resource = resource_klass.provision!(params[:resource])
 
       respond_to do |format|
-        if @resource.save
-          format.html { redirect_to :back, notice: 'Resource was successfully created.' }
-          format.json { render json: @resource, status: :created, location: resource_url(@resource) }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @resource.errors, status: :unprocessable_entity }
-        end
+        format.html { return redirect_to :back, notice: 'Resource was successfully created.' }
+        format.json { render json: @resource, status: :created, location: resource_url(@resource) }
       end
     end
 

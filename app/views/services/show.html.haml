@@ -4,6 +4,10 @@
 
 .row
   .span12
+    %pre= @service.repo
+
+.row
+  .span12
     %p= @service.description
 
   .span12
@@ -11,7 +15,9 @@
     = render "resources/form"
     - @service.resources.each do |r|
       %p
-        = r.class.to_s
+        #{r.class.to_s} - #{r.machine.ip_address}
+      %pre
+        = pp r.data
 
 = link_to 'Edit', edit_service_path(@service)
 |

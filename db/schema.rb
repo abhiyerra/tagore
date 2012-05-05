@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20120429061355) do
   create_table "machines", :force => true do |t|
     t.string   "type"
     t.string   "tag"
+    t.string   "ip_address"
     t.text     "data"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

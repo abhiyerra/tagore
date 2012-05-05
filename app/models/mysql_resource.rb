@@ -1,27 +1,31 @@
 class MysqlResource < Resource
 
-  def provision!
-    db_name = "#{self.service.name}_#{self.id}_production"
+  def self.provision!(params)
+    resource = self.create(params)
+
+    db_name = "#{resource.service.name}_#{resource.id}_production"
 
     db_machines = Machine.where(:tag => "mysql")
-    machine = db_machines[db_name.hash.abs % database_machines.length]
+    machine = db_machines[db_name.hash.abs % db_machines.length]
 
-    self.machine_id = machine.id
+    resource.machine_id = machine.id
 
     # TODO: Need to grant privileges to a user. We don't want to just
     # give root access to this.
+    # system %{
+    #   ssh #{machine.ip_address} mysqladmin -u root create #{db_name}
+    # }
+
     system %{
-      ssh #{machine} mysql -u root <<END
-        create database #{db_name}
-      END
+      mysqladmin -u root create #{db_name}
     }
 
-    self.data = {
+    resource.data = {
       :database => db_name,
-      :user => "root",
+      :user     => "root",
       :password => "",
     }
 
-    self.save!
+    resource.save!
   end
 end

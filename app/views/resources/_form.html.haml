@@ -1,5 +1,5 @@
 - @resource = Resource.new unless @resource
-= form_for(@resource) do |f|
+= form_for(@resource, :html => { :class => "form-inline" }) do |f|
   = f.hidden_field :service_id, :value => @service.id
   = f.select :type, Resource::TYPES.map { |k,v| k }
   = f.submit "+ Add", :class => "btn btn-success"
