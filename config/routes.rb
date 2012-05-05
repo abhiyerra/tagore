@@ -1,7 +1,12 @@
 require 'resque/server'
 
 Hannibal::Application.routes.draw do
-  resources :services
+  resources :services do
+    member do
+      post 'deploy'
+    end
+  end
+
   resources :resources
 
   mount Resque::Server.new, :at => "/resque"

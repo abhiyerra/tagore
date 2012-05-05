@@ -1,6 +1,9 @@
 .row
-  .span12
+  .span10
     %h1= @service.name
+
+  .span2
+    = button_to 'Deploy', deploy_service_path(@service), :class => "btn btn-primary"
 
 .row
   .span12

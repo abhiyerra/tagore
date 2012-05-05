@@ -82,10 +82,8 @@ class ServicesController < ApplicationController
   end
 
   def deploy
-    @service = Service.find_by_name(params[:name])
-    unless @service.launched
-      @service.start
-    end
+    @service = Service.find(params[:id])
+    @service.deploy!
   end
 
 end

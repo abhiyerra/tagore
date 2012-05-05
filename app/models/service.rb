@@ -6,10 +6,8 @@ class Service < ActiveRecord::Base
 
   has_many :resources
 
-  after_create :provision!
+  def deploy!
 
-  def provision!
-    Resque.enqueue(ProvisionService, self.id)
   end
 
 end
