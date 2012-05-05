@@ -11,11 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120505002748) do
+ActiveRecord::Schema.define(:version => 20120505004833) do
 
   create_table "deploys", :force => true do |t|
     t.integer  "service_id"
     t.string   "commit"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "machine_services", :force => true do |t|
+    t.integer  "machine_id"
+    t.integer  "service_id"
+    t.integer  "port"
+    t.integer  "pid"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

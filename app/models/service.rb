@@ -7,6 +7,8 @@ class Service < ActiveRecord::Base
   has_many :resources
   has_many :deploys
 
+  has_many :machines, :through => :machine_services
+
   def deploy!
 
   end

@@ -3,4 +3,6 @@ class Deploy < ActiveRecord::Base
 
   belongs_to :service
 
+  STAGING_DIR = "/tmp/deploy"
+
 end
