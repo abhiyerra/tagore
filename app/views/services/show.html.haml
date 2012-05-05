@@ -2,9 +2,6 @@
   .span10
     %h1= @service.name
 
-  .span2
-    = button_to 'Deploy', deploy_service_path(@service), :class => "btn btn-primary"
-
 .row
   .span12
     %pre= @service.repo
@@ -13,14 +10,42 @@
   .span12
     %p= @service.description
 
-  .span12
+%hr/
+
+.row
+  .span8
     %h2 Resources
+  .span4
     = render "resources/form"
-    - @service.resources.each do |r|
-      %p
-        #{r.class.to_s} - #{r.machine.ip_address}
-      %pre
-        = pp r.data
+
+  .span12
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th Resource
+          %th Host
+          %th Data
+      - @service.resources.each do |r|
+        %tr
+          %td= r.class.to_s
+          %td= r.machine.ip_address
+          %td
+            %pre= pp r.data
+
+%hr/
+
+.row
+  .span10
+    %h2 Deploys
+
+  .span2
+    = button_to 'Deploy', deploy_service_path(@service), :class => "btn btn-primary"
+
+  .span12
+    %table.table
+      - @service.deploys.each do |d|
+        %tr
+          %td= d.commit
 
 = link_to 'Edit', edit_service_path(@service)
 |
