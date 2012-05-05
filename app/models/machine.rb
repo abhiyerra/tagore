@@ -5,5 +5,4 @@ class Machine < ActiveRecord::Base
 
   has_many :resources
 
-  has_many :services, :through => :machine_services
 end
