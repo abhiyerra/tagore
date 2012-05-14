@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Hannibal::Application.load_tasks
+Tagore::Application.load_tasks

@@ -1,6 +1,6 @@
 require 'resque/server'
 
-Hannibal::Application.routes.draw do
+Tagore::Application.routes.draw do
   resources :services do
     member do
       post 'deploy'

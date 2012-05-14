@@ -1,4 +1,4 @@
-set :application, "hannibal"
+set :application, "tagore"
 set :repository,  "set your repository location here"
 
 set :scm, :git

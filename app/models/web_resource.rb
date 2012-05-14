@@ -1,10 +1,10 @@
 class WebResource < Resource
-  def provision!
-    service_name = "#{self.service.name}_#{self.id}"
+  def self.provision!(params)
 
     self.data = {
       :machine => "",
-      :ip_address => ""
+      :ip_address => "",
+      :port => ""
     }
 
     self.save!
