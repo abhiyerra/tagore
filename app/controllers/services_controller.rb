@@ -6,7 +6,17 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @services }
+      format.json do
+        ret = @services.map do |s|
+          {
+            :subdomain => s.name,
+            :servers => s.resources.where(:type => "WebResource").map do |r|
+              "#{r.machine.ip_address}:3000"
+            end
+          }
+        end
+        render json: ret
+      end
     end
   end
 

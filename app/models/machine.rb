@@ -1,5 +1,5 @@
 class Machine < ActiveRecord::Base
-  attr_accessible :title, :body, :tag
+  attr_accessible :title, :body, :tag, :ip_address
 
   serialize :data
 

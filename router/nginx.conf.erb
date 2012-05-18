@@ -24,19 +24,19 @@ http {
 
     gzip  on;
 
-    <% @services.each do |service| %>
-        upstream <%= service[:subdomain] %> {
-            <% service[:servers].each do |server| %>
+    <% services.each do |service| %>
+        upstream <%= service["subdomain"] %> {
+            <% service["servers"].each do |server| %>
                 server <%= server %>;
             <% end %>
         }
 
         server {
             listen 80;
-            server_name <%= service[:subdomain %>;
+            server_name <%= service["subdomain"] %>;
 
             location / {
-                proxy_pass  http://<%= service[:subdomain] %>;
+                proxy_pass  http://<%= service["subdomain"] %>;
             }
         }
     <% end %>

@@ -1,12 +1,7 @@
 class WebResource < Resource
   def self.provision!(params)
-
-    self.data = {
-      :machine => "",
-      :ip_address => "",
-      :port => ""
-    }
-
-    self.save!
+    web = self.new
+    web.machine_id = Machine.first.id
+    web.save!
   end
 end
