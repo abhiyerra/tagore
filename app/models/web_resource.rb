@@ -3,5 +3,7 @@ class WebResource < Resource
     web = self.new
     web.machine_id = Machine.first.id
     web.save!
+
+    $REDIS.publish("nginx_provision", "update")
   end
 end

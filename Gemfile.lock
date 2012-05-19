@@ -149,6 +149,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (= 3.2.3)
+  redis
   resque
   ruby-debug19
   sass-rails (~> 3.2.3)

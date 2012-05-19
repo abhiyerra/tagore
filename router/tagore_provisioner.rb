@@ -33,16 +33,17 @@ class NginxProvision
   private :generate_config
 
   def update_config_file
-
+    File.open('nginx.conf', 'w+') do |f|
+      f << @config
+    end
   end
   private :update_config_file
 
   def provision
     update_services
     generate_config
-    File.open('nginx.conf', 'w+') do |f|
-      f << @config
-    end
+    update_config_file
+    # Check if the nginx file is valid.
     # Update the symlink to the new nginx file
     unless `nginx -s reload`.empty?
       puts "uh oh"
