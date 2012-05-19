@@ -6,6 +6,7 @@ class Service < ActiveRecord::Base
 
   has_many :resources
   has_many :deploys
+  has_many :machine_ports
 
   def deploy!
     # 1) Create a deploy
