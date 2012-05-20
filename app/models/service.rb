@@ -8,6 +8,10 @@ class Service < ActiveRecord::Base
   has_many :deploys
   has_many :machine_ports
 
+  before_save do
+    self.name.downcase!
+  end
+
   def deploy!
     # 1) Create a deploy
     # 2) Clone repo locally and figure out the commit.

@@ -7,3 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Machine.create(:ip_address => '127.0.0.1', :tag => 'web')
+Machine.create(:ip_address => '127.0.0.1', :tag => 'mysql')
