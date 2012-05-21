@@ -11,8 +11,6 @@ MACHINE_IP = '127.0.0.1'
 
 SERVICE_SEARCH_URL = "http://localhost:3001/services/"
 
-FORMAN_FILE = "Procfile.erb"
-
 DEPLOY_DIR = "/Users/abhi/deployer/"
 
 class Deployer
