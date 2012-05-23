@@ -14,7 +14,7 @@ class Deployer
   def initialize(server, deploy_dir)
     @redis = Redis.new
     @used_ports = {}
-    @current_port = 1000
+    @current_port = 3000
 
     @service_url = "#{$server}/services/"
 
@@ -53,7 +53,7 @@ class Deployer
     end
 
     @services[service_id] = fork do
-      exec("cd #{$deploy_dir}#{service["name"]} && foreman start -c web=4 PORT=#{port} &")
+      exec("cd #{$deploy_dir}#{service["name"]} && PORT=#{port} foreman start -c web=4 -p #{port}")
     end
 
   end
@@ -99,6 +99,8 @@ end.parse!
 
 $server = "http://127.0.0.1:3001" unless $server
 $deploy_dir = DEPLOY_DIR unless $deploy_dir
+
+puts "#{$server} - #{$deploy_dir}"
 
 deployer = Deployer.new($server, $deploy_dir)
 deployer.looper
