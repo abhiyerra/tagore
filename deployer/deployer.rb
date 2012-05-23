@@ -10,12 +10,15 @@ trap(:INT) { puts; exit }
 DEPLOY_DIR = "/Users/abhi/deployer/"
 
 class Deployer
-  SERVICE_SEARCH_URL = "http://#{$server}/services/"
 
-  def initialize
+  def initialize(server, deploy_dir)
     @redis = Redis.new
     @used_ports = {}
     @current_port = 1000
+
+    @service_url = "#{$server}/services/"
+
+    @services = {}
   end
 
   # TODO: Need to actually prevent deployment if the servier is out of
@@ -26,7 +29,7 @@ class Deployer
   end
 
   def deploy(service_id, commit)
-    response = Typhoeus::Request.get(SERVICE_SEARCH_URL + service_id + ".json")
+    response = Typhoeus::Request.get(@service_url + service_id + ".json")
 
     service = JSON.parse(response.body)
     @current_port += 1000
@@ -36,16 +39,23 @@ class Deployer
     # if not directory exists
     unless File.directory?(deploy_loc)
       puts `cd #{$deploy_dir} && git clone #{service["repo"]} #{service["name"]}`
-    else
-      puts `cd #{$deploy_dir}#{service["name"]} && foreman stop`
     end
 
-    puts `cd #{$deploy_dir}#{service["name"]} && git pull --rebase && git checkout #{commit}`
+    puts `cd #{$deploy_dir}#{service["name"]} && git checkout master && git pull --rebase && git checkout #{commit}`
     # TODO: Create forman file
 
     # TODO: Should start the forman service in a restricted mode so
     # other services can't fuck with things.
-    puts `cd #{$deploy_dir}#{service["name"]} && foreman start -c web=4 PORT=#{port} & `
+
+    if @services[service_id]
+      Process.kill "QUIT", @services[service_id]
+#      puts `cd #{$deploy_dir}#{service["name"]} && foreman stop`
+    end
+
+    @services[service_id] = fork do
+      exec("cd #{$deploy_dir}#{service["name"]} && foreman start -c web=4 PORT=#{port} &")
+    end
+
   end
 
   def looper
@@ -87,8 +97,8 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-$server = "127.0.0.1" unless $server
+$server = "http://127.0.0.1:3001" unless $server
 $deploy_dir = DEPLOY_DIR unless $deploy_dir
 
-deployer = Deployer.new
+deployer = Deployer.new($server, $deploy_dir)
 deployer.looper

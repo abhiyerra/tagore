@@ -94,6 +94,8 @@ class ServicesController < ApplicationController
   def deploy
     @service = Service.find(params[:id])
     @service.deploy!
+
+    return redirect_to :back
   end
 
 end

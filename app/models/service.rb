@@ -13,18 +13,7 @@ class Service < ActiveRecord::Base
   end
 
   def deploy!
-    # 1) Create a deploy
-    # 2) Clone repo locally and figure out the commit.
-    # 3) Trigger a state change.
-    # 4) Go through the service.resources.where(:type => WebResource)
-    # 5) ssh into each machine and check out a new top level clone via git
-    #   a) Modify the database.yml to the new production database config.
-    #   b)
-
-    Net::SSH.start('host', 'user', :password => "password") do |ssh|
-      output = ssh.exec!("hostname")
-
-    end
+    $REDIS.publish("deploy", "#{self.id.to_s} HEAD")
   end
 
 end
