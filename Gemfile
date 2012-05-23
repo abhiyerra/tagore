@@ -11,6 +11,8 @@ gem 'resque'
 gem 'fog'
 gem 'redis'
 
+gem 'therubyracer'
+
 group :production do
   gem 'thin'
 end
