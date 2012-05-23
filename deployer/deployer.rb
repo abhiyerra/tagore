@@ -1,43 +1,51 @@
 require 'rubygems'
 require "redis"
-require 'erb'
 require 'typhoeus'
 require 'json'
 require 'ruby-debug'
+require 'optparse'
 
 trap(:INT) { puts; exit }
-
-MACHINE_IP = '127.0.0.1'
-
-SERVICE_SEARCH_URL = "http://localhost:3001/services/"
 
 DEPLOY_DIR = "/Users/abhi/deployer/"
 
 class Deployer
+  SERVICE_SEARCH_URL = "http://#{$server}/services/"
+
   def initialize
     @redis = Redis.new
+    @used_ports = {}
+    @current_port = 1000
+  end
+
+  # TODO: Need to actually prevent deployment if the servier is out of
+  # space.
+  def can_deploy?
+    #    @user_ports.size
+    true
   end
 
   def deploy(service_id, commit)
     response = Typhoeus::Request.get(SERVICE_SEARCH_URL + service_id + ".json")
 
     service = JSON.parse(response.body)
-    port = 5000
+    @current_port += 1000
+    port = @current_port
 
-    deploy_loc = "#{DEPLOY_DIR}#{service["name"]}"
+    deploy_loc = "#{$deploy_dir}#{service["name"]}"
     # if not directory exists
     unless File.directory?(deploy_loc)
-      puts `cd #{DEPLOY_DIR} && git clone #{service["repo"]} #{service["name"]}`
+      puts `cd #{$deploy_dir} && git clone #{service["repo"]} #{service["name"]}`
     else
-      puts `cd #{DEPLOY_DIR}#{service["name"]} && foreman stop`
+      puts `cd #{$deploy_dir}#{service["name"]} && foreman stop`
     end
 
-    puts `cd #{DEPLOY_DIR}#{service["name"]} && git pull --rebase && git checkout #{commit}`
+    puts `cd #{$deploy_dir}#{service["name"]} && git pull --rebase && git checkout #{commit}`
     # TODO: Create forman file
 
     # TODO: Should start the forman service in a restricted mode so
     # other services can't fuck with things.
-    puts `cd #{DEPLOY_DIR}#{service["name"]} && foreman start -c web=4 PORT=#{port} & `
+    puts `cd #{$deploy_dir}#{service["name"]} && foreman start -c web=4 PORT=#{port} & `
   end
 
   def looper
@@ -53,10 +61,9 @@ class Deployer
           service_id = $1
           commit = $2
 
-          puts $1
-          puts $2
+          puts "#{$1} - #{$2}"
 
-          deploy(service_id, commit)
+          deploy(service_id, commit) if can_deploy?
         end
       end
 
@@ -67,8 +74,21 @@ class Deployer
   end
 end
 
-# Provision
-# -> See if
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} [options]"
+
+  opts.on("-s", "--server SERVER", "The server which will be out master") do |server|
+    $server = server
+  end
+
+  opts.on("-d", "--deploy-dir DEPLOY_DIR", "WHere files should be deployed to") do |deploy_dir|
+    $deploy_dir = deploy_dir
+  end
+end.parse!
+
+$server = "127.0.0.1" unless $server
+$deploy_dir = DEPLOY_DIR unless $deploy_dir
 
 deployer = Deployer.new
 deployer.looper
