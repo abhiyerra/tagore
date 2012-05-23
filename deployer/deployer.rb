@@ -14,7 +14,7 @@ class Deployer
   def initialize(server, deploy_dir)
     @redis = Redis.new
     @used_ports = {}
-    @current_port = 3000
+    @current_port = 5000
 
     @service_url = "#{$server}/services/"
 
