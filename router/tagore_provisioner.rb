@@ -7,10 +7,10 @@ require 'ruby-debug'
 
 trap(:INT) { puts; exit }
 
-NGINX_PATH = "/usr/local/bin/nginx"
+NGINX_EXEC = "/usr/local/bin/nginx"
 SERVICES_URL = "http://localhost:3001/services.json"
 
-class NginxProvision
+class NginxProvision(server, nginx_conf)
   def initialize
     @redis = Redis.new
     @services = []
@@ -45,7 +45,7 @@ class NginxProvision
     update_config_file
     # Check if the nginx file is valid.
     # Update the symlink to the new nginx file
-    unless `nginx -s reload`.empty?
+    unless `#{NGINX_EXEC} -s reload`.empty?
       puts "uh oh"
     end
   end
@@ -70,5 +70,18 @@ class NginxProvision
   end
 end
 
-nginxprovision = NginxProvision.new
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} [options]"
+
+  opts.on("-s", "--server SERVER", "The server which will be out master") do |server|
+    $server = server
+  end
+
+  opts.on("-f", "--file NGINX_FILE", "nginx.conf file") do |nginx_file|
+    $nginx_file = nginx_file
+  end
+end.parse!
+
+puts "#{$server} - #{$nginx_file}"
+nginxprovision = NginxProvision.new($server, $deploy_dir)
 nginxprovision.looper
