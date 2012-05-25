@@ -1,3 +1,11 @@
+- content_for :menu do
+  %ul.nav
+    %li= link_to 'Edit', edit_service_path(@service)
+
+  %ul.pull-right.nav
+    %li= render "resources/form"
+    %li= button_to 'Deploy', deploy_service_path(@service), :class => "btn btn-primary"
+
 .row
   .span10
     %h1= @service.name
@@ -16,7 +24,7 @@
   .span8
     %h2 Resources
   .span4
-    = render "resources/form"
+
 
   .span12
     %table.table.table-bordered
@@ -39,14 +47,9 @@
     %h2 Deploys
 
   .span2
-    = button_to 'Deploy', deploy_service_path(@service), :class => "btn btn-primary"
 
   .span12
     %table.table
       - @service.deploys.each do |d|
         %tr
           %td= d.commit
-
-= link_to 'Edit', edit_service_path(@service)
-|
-= link_to 'Back', services_path

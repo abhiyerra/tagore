@@ -1,18 +1,19 @@
-.row
-  .span10
-    %h1 Services
-  .span2
-    = link_to 'Create', new_service_path, :class => "btn"
+- content_for :menu do
+  %ul.nav
+    %li= link_to 'New Service', new_service_path, :class => "btn btn-primary"
 
 .row
+  .span12
+    %h1 Services
   .span12
     %table.table.table-bordered
       %thead
         %tr
           %th Name
-          %th Description
+          %th Status
+
       %tbody
         - @services.each do |service|
           %tr
             %td= link_to service.name, service_path(service)
-            %td= service.description
+            %td

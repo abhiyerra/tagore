@@ -6,7 +6,8 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    .container
+    = render "partials/menu"
+    .container#main{:style => "margin-top: 4em;"}
       - if notice
         %p#notice= notice
 
