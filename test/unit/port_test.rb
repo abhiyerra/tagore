@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MachinePortTest < ActiveSupport::TestCase
+class PortTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

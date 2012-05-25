@@ -1,6 +1,6 @@
-class CreateMachinePorts < ActiveRecord::Migration
+class CreatePorts < ActiveRecord::Migration
   def change
-    create_table :machine_ports do |t|
+    create_table :ports do |t|
       t.integer :machine_id
       t.integer :service_id
 
