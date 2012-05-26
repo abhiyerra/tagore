@@ -8,8 +8,8 @@ gem 'rails', '3.2.3'
 gem 'mysql2'
 gem 'haml'
 gem 'resque'
-gem 'fog'
 gem 'redis'
+gem 'httparty'
 
 gem 'therubyracer'
 
