@@ -17,7 +17,6 @@ class Service < ActiveRecord::Base
   end
 
   def started!(machine_id, starting_at_port)
-
     $REDIS.publish("nginx_provision", "update")
   end
 
