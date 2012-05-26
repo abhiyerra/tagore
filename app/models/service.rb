@@ -6,7 +6,7 @@ class Service < ActiveRecord::Base
 
   has_many :resources
   has_many :deploys
-  has_many :machine_ports
+  has_many :ports
 
   before_save do
     self.name.downcase!
@@ -14,6 +14,15 @@ class Service < ActiveRecord::Base
 
   def deploy!
     $REDIS.publish("deploy", "#{self.id.to_s} HEAD")
+  end
+
+  def started!(machine_id, starting_at_port)
+
+    $REDIS.publish("nginx_provision", "update")
+  end
+
+  def stopped!(machine_id, starting_at_port)
+
   end
 
 end

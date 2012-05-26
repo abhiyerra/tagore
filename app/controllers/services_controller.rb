@@ -98,4 +98,17 @@ class ServicesController < ApplicationController
     return redirect_to :back
   end
 
+  def started
+    @service = Service.find(params[:id])
+    @service.started!(params[:machine_id], params[:ports])
+
+    head(:ok)
+  end
+
+  def stopped
+    @service = Service.find(params[:id])
+    @service.stopped!(params[:machine_id], params[:ports])
+
+    head(:ok)
+  end
 end

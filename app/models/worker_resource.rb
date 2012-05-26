@@ -1,3 +1,0 @@
-class WorkerResource < Resource
-
-end
