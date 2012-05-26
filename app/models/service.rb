@@ -21,14 +21,11 @@ class Service < ActiveRecord::Base
 
   def started!(machine_id, port)
     Port.create(:machine_id => machine_id, :service_id => self.id)
-
     $REDIS.publish(PROVISION_ROUTER_COMMAND, "update")
   end
 
   def stopped!(machine_id)
-    Port.where(:machine_id => machine_id, :service_id => self.id).each do |port|
-      port.destroy
-    end
+    Port.where(:machine_id => machine_id, :service_id => self.id).each(&:destroy)
   end
 
 end
