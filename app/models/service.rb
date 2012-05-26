@@ -19,7 +19,8 @@ class Service < ActiveRecord::Base
     $REDIS.publish(DEPLOY_COMMAND, "#{self.id.to_s} HEAD")
   end
 
-  )
+  def started!(machine_id, port)
+    Port.create(:machine_id => machine_id, :service_id => self.id)
 
     $REDIS.publish(PROVISION_ROUTER_COMMAND, "update")
   end
