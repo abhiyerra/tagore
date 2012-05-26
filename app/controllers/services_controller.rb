@@ -10,9 +10,7 @@ class ServicesController < ApplicationController
         ret = @services.map do |s|
           {
             :subdomain => s.name,
-            :servers => s.resources.where(:type => "WebResource").map do |r|
-              "#{r.machine.ip_address}:3000"
-            end
+            :service => s.listeners
           }
         end
         render json: ret

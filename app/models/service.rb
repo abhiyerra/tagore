@@ -15,6 +15,15 @@ class Service < ActiveRecord::Base
     self.name.downcase!
   end
 
+  def listeners
+    ports.where(:service_id => self.id).map do |port|
+      (1..4).map do |i|
+        "#{port.machine.ip_address}:#{port.port + i}"
+      end
+    end.flatten
+  end
+
+
   def deploy!
     $REDIS.publish(DEPLOY_COMMAND, "#{self.id.to_s} HEAD")
   end
