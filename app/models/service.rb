@@ -8,20 +8,26 @@ class Service < ActiveRecord::Base
   has_many :deploys
   has_many :ports
 
+  DEPLOY_COMMAND = "deploy"
+  PROVISION_ROUTER_COMMAND = "nginx_provision"
+
   before_save do
     self.name.downcase!
   end
 
   def deploy!
-    $REDIS.publish("deploy", "#{self.id.to_s} HEAD")
+    $REDIS.publish(DEPLOY_COMMAND, "#{self.id.to_s} HEAD")
   end
 
-  def started!(machine_id, starting_at_port)
-    $REDIS.publish("nginx_provision", "update")
+  )
+
+    $REDIS.publish(PROVISION_ROUTER_COMMAND, "update")
   end
 
-  def stopped!(machine_id, starting_at_port)
-
+  def stopped!(machine_id)
+    Port.where(:machine_id => machine_id, :service_id => self.id).each do |port|
+      port.destroy
+    end
   end
 
 end
