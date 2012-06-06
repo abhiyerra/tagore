@@ -6,7 +6,7 @@ class Service < ActiveRecord::Base
 
   has_many :resources
   has_many :deploys
-  has_many :ports
+  has_many :provisions
 
   DEPLOY_COMMAND = "deploy"
   PROVISION_ROUTER_COMMAND = "nginx_provision"

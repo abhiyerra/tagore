@@ -4,5 +4,5 @@ class Machine < ActiveRecord::Base
   serialize :data
 
   has_many :resources
-  has_many :ports
+  has_many :provisions
 end
