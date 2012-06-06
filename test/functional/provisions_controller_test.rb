@@ -11,11 +11,6 @@ class ProvisionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:provisions)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create provision" do
     assert_difference('Provision.count') do
       post :create, provision: { machine_id: @provision.machine_id, service_id: @provision.service_id, start_port: @provision.start_port }
@@ -27,16 +22,6 @@ class ProvisionsControllerTest < ActionController::TestCase
   test "should show provision" do
     get :show, id: @provision
     assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @provision
-    assert_response :success
-  end
-
-  test "should update provision" do
-    put :update, id: @provision, provision: { machine_id: @provision.machine_id, service_id: @provision.service_id, start_port: @provision.start_port }
-    assert_redirected_to provision_path(assigns(:provision))
   end
 
   test "should destroy provision" do

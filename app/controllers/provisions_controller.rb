@@ -20,13 +20,10 @@ class ProvisionsController < ApplicationController
   def create
     @provision = Provision.new(params[:provision])
 
-    respond_to do |format|
-      if @provision.save
-        render json: @provision, status: :created, location: @provision
-      else
-        format.html { render action: "new" }
-        render json: @provision.errors, status: :unprocessable_entity
-      end
+    if @provision.save
+      render json: @provision, status: :created, location: @provision
+    else
+      render json: @provision.errors, status: :unprocessable_entity
     end
   end
 
