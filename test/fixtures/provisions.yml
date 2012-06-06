@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  machine_id: 1
+  service_id: 1
+  start_port: 1
+
+two:
+  machine_id: 1
+  service_id: 1
+  start_port: 1

@@ -1,0 +1,27 @@
+<h1>Listing provisions</h1>
+
+<table>
+  <tr>
+    <th>Machine</th>
+    <th>Service</th>
+    <th>Start port</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @provisions.each do |provision| %>
+  <tr>
+    <td><%= provision.machine_id %></td>
+    <td><%= provision.service_id %></td>
+    <td><%= provision.start_port %></td>
+    <td><%= link_to 'Show', provision %></td>
+    <td><%= link_to 'Edit', edit_provision_path(provision) %></td>
+    <td><%= link_to 'Destroy', provision, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Provision', new_provision_path %>

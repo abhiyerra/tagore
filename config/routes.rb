@@ -1,6 +1,8 @@
 require 'resque/server'
 
 Tagore::Application.routes.draw do
+  resources :provisions
+
   resources :services do
     member do
       post 'deploy'
