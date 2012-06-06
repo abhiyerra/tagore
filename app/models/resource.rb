@@ -11,7 +11,5 @@ class Resource < ActiveRecord::Base
     "redis" => RedisResource,
 #    "mongo" => MongoResource,
     "memcached" => MemcachedResource,
-    "web" => WebResource,
-    "worker" => WorkerResource,
   }
 end

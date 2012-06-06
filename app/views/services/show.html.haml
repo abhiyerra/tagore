@@ -21,6 +21,17 @@
 %hr/
 
 .row
+  .span12
+    %h2 Procfile
+
+  %code.span12
+    web:     bundle exec thin start -p $PORT
+    %br/
+    worker:  bundle exec rake resque:work
+
+%hr/
+
+.row
   .span8
     %h2 Resources
   .span4
