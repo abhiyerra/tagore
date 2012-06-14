@@ -10,7 +10,7 @@ class ServicesController < ApplicationController
         ret = @services.map do |s|
           {
             :subdomain => s.name,
-            :service => s.listeners
+            :service => s.host_prts
           }
         end
         render json: ret
